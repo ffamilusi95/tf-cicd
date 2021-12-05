@@ -84,7 +84,6 @@ pipeline{
         
         }
     
-
         stage('Terraform Apply'){
             steps {
                     ansiColor('xterm') {

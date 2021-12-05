@@ -24,9 +24,6 @@ provider "azurerm" {
     features {}
 }
 
-
-
-
 provider "azuread" {
     version         =   ">= 0.11"
     client_id       =   var.client_id
@@ -34,7 +31,6 @@ provider "azuread" {
     tenant_id       =   var.tenant_id
     alias           =   "ad"
 }
-
 
 // module "windows-server" {
 //     source  =   "./azure/WindowsServer2019"
@@ -44,14 +40,10 @@ provider "azuread" {
 //     source =    "./azure/Windows10-ExistingInfra"
 // }
 
-
-
 // module "aks" {
 //     source    =     "./azure/aks"
 //     env       =     "dev"
 // }
-
-
 
 // module "customrole" {
 //     source  =   "./azure/custom-roles"
