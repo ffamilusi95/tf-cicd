@@ -40,3 +40,52 @@ jobs:
             --name jenkins-vm \
             --port 8080 --priority 1010
 
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.6
+        with:
+          # Specify the script here
+          inlineScript: |
+            $RESOURCE_GROUP_NAME = "tfstate-rg"
+            $STORAGE_ACCOUNT_NAME = "terraformstate2345"
+            
+            $CONTAINER_NAME = "terraformstate"
+          
+            $AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
+            
+            $TF_RG_SECRET_NAME = "tfrgname-secret"
+            $TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
+            $TF_ACCOUNTKEY_SECRET_NAME = "tfstorageacckey-secret"
+            $TF_CONTAINER_SECRET_NAME = "tfcontainer-secret"
+
+            # Create resource group
+            az group create --name $RESOURCE_GROUP_NAME --location eastus2
+            
+            # Create storage account
+            az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
+            
+            # Get storage account key
+            $ACCOUNT_KEY = $(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query [0].value -o tsv)
+            
+            # Create blob container
+            az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $ACCOUNT_KEY
+            
+            # Create a new key vault
+            az keyvault create --name $AZRM_BACKENDKV_NAME --resource-group $RESOURCE_GROUP_NAME
+            
+            # Create a new key vault secret with $RESOURCE_GROUP_NAME
+            az keyvault secret set --name $TF_RG_SECRET_NAME --value $RESOURCE_GROUP_NAME --vault-name $AZRM_BACKENDKV_NAME
+
+            # Create a new key vault secret with $STORAGE_ACCOUNT_NAME
+            az keyvault secret set --name $TF_STORAGEACC_SECRET_NAME --value $STORAGE_ACCOUNT_NAME --vault-name $AZRM_BACKENDKV_NAME
+
+            # Create a new key vault secret with $CONTAINER_NAME
+            az keyvault secret set --name $TF_CONTAINER_SECRET_NAME --value $CONTAINER_NAME --vault-name $AZRM_BACKENDKV_NAME
+
+            # Create a new key vault secret with $ACCOUNTKEY
+            az keyvault secret set --name $TF_ACCOUNTKEY_SECRET_NAME --value $ACCOUNT_KEY --vault-name $AZRM_BACKENDKV_NAME
+            
+            Write-Host "resource_group_name: $RESOURCE_GROUP_NAME"
+            Write-Host "storage_account_name: $STORAGE_ACCOUNT_NAME"
+            Write-Host "container_name: $CONTAINER_NAME"
+
+
