@@ -20,22 +20,22 @@ jobs:
         with: # Set Azure credentials secret as an input
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Azure CLI Action - Create Backend
-        uses: Azure/cli@v1.0.6
+      - name: Run Azure PowerShell Script - Create Backend
+        uses: azure/powershell@v1
         with:
           # Specify the script here
           inlineScript: |
-            RESOURCE_GROUP_NAME = "tfstate-rg"
-            STORAGE_ACCOUNT_NAME = "terraformstate2345"
+            $RESOURCE_GROUP_NAME = "tfstate-rg"
+            $STORAGE_ACCOUNT_NAME = "terraformstate2345"
             
-            CONTAINER_NAME = "terraformstate"
+            $CONTAINER_NAME = "terraformstate"
           
-            AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
+            $AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
             
-            TF_RG_SECRET_NAME = "tfrgname-secret"
-            TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
-            TF_ACCOUNTKEY_SECRET_NAME = "tfstorageacckey-secret"
-            TF_CONTAINER_SECRET_NAME = "tfcontainer-secret"
+            $TF_RG_SECRET_NAME = "tfrgname-secret"
+            $TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
+            $TF_ACCOUNTKEY_SECRET_NAME = "tfstorageacckey-secret"
+            $TF_CONTAINER_SECRET_NAME = "tfcontainer-secret"
 
             # Create resource group
             az group create --name $RESOURCE_GROUP_NAME --location eastus2
