@@ -15,6 +15,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      - name: Azure Login
+        uses: Azure/login@v1.4.1
+
       - name: Azure CLI Action
         uses: Azure/cli@v1.0.6
         with:
