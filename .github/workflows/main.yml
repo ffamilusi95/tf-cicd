@@ -20,6 +20,7 @@ jobs:
         with:
           # Specify the script here
           inlineScript: |
+            az login
             az group create --name jenkins-rg --location eastus
             az vm create \
             --resource-group jenkins-rg \
