@@ -1,4 +1,4 @@
-name: CI
+name: AzureRMBackend
 
 # Controls when the workflow will run - Manual
 on: workflow_dispatch
