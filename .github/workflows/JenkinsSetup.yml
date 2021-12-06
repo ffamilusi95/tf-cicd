@@ -1,0 +1,41 @@
+name: CI
+
+# Controls when the workflow will run - Manual
+on: workflow_dispatch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Azure Login
+        uses: Azure/login@v1.4.1
+        with: # Set Azure credentials secret as an input
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI Action - Create Jenkins
+        uses: Azure/cli@v1.0.6
+        with:
+          # Specify the script here
+          inlineScript: |
+            az group create --name jenkins-rg --location eastus
+            az vm create \
+            --resource-group jenkins-rg \
+            --name jenkins-vm \
+            --image UbuntuLTS \
+            --admin-username "azureuser" \
+            --generate-ssh-keys \
+            --public-ip-sku Standard \
+            --custom-data cloud-init-jenkins.txt
+            az vm list -d -o table --query "[?name=='jenkins-vm']"
+            az vm open-port \
+            --resource-group jenkins-rg \
+            --name jenkins-vm \
+            --port 8080 --priority 1010
