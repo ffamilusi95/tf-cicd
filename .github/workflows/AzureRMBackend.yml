@@ -25,17 +25,17 @@ jobs:
         with:
           # Specify the script here
           inlineScript: |
-            $RESOURCE_GROUP_NAME = "tfstate-rg"
-            $STORAGE_ACCOUNT_NAME = "terraformstate2345"
+            RESOURCE_GROUP_NAME = "tfstate-rg"
+            STORAGE_ACCOUNT_NAME = "terraformstate2345"
             
-            $CONTAINER_NAME = "terraformstate"
+            CONTAINER_NAME = "terraformstate"
           
-            $AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
+            AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
             
-            $TF_RG_SECRET_NAME = "tfrgname-secret"
-            $TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
-            $TF_ACCOUNTKEY_SECRET_NAME = "tfstorageacckey-secret"
-            $TF_CONTAINER_SECRET_NAME = "tfcontainer-secret"
+            TF_RG_SECRET_NAME = "tfrgname-secret"
+            TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
+            TF_ACCOUNTKEY_SECRET_NAME = "tfstorageacckey-secret"
+            TF_CONTAINER_SECRET_NAME = "tfcontainer-secret"
 
             # Create resource group
             az group create --name $RESOURCE_GROUP_NAME --location eastus2
@@ -64,8 +64,8 @@ jobs:
             # Create a new key vault secret with $ACCOUNTKEY
             az keyvault secret set --name $TF_ACCOUNTKEY_SECRET_NAME --value $ACCOUNT_KEY --vault-name $AZRM_BACKENDKV_NAME
             
-            Write-Host "resource_group_name: $RESOURCE_GROUP_NAME"
-            Write-Host "storage_account_name: $STORAGE_ACCOUNT_NAME"
-            Write-Host "container_name: $CONTAINER_NAME"
+            echo "resource_group_name: $RESOURCE_GROUP_NAME"
+            echo "storage_account_name: $STORAGE_ACCOUNT_NAME"
+            echo "container_name: $CONTAINER_NAME"
 
 
