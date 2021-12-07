@@ -23,6 +23,7 @@ jobs:
       - name: Run Azure PowerShell Script - Create Backend
         uses: azure/powershell@v1
         with:
+          azPSVersion: latest
           # Specify the script here
           inlineScript: |
             $RESOURCE_GROUP_NAME = "tfstate-rg"
@@ -68,7 +69,5 @@ jobs:
             echo "storage_account_name: $STORAGE_ACCOUNT_NAME"
             echo "container_name: $CONTAINER_NAME"
 
-
-            hello
 
 
