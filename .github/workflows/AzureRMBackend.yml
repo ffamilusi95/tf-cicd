@@ -27,11 +27,11 @@ jobs:
           # Specify the script here
           inlineScript: |
             $RESOURCE_GROUP_NAME = "tfstate-rg"
-            $STORAGE_ACCOUNT_NAME = "terraformstate2345"
+            $STORAGE_ACCOUNT_NAME = "terraformstate234512"
             
             $CONTAINER_NAME = "terraformstate"
           
-            $AZRM_BACKENDKV_NAME = "AzureRMBackendKV"
+            $AZRM_BACKENDKV_NAME = "AzureRMBackendKV1"
             
             $TF_RG_SECRET_NAME = "tfrgname-secret"
             $TF_STORAGEACC_SECRET_NAME = "tfstorageaccname-secret"
